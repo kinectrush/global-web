@@ -26,14 +26,14 @@ export const Header = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-2">
             {/* Mobile menu button */}
-            <div className="md:hidden">
+            {/* <div className="md:hidden">
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="text-white hover:text-blue-600 p-2"
               >
                 {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </button>
-            </div>
+            </div> */}
             
             <img src="images/logo-goglobal.png" className="h-[50px] w-auto object-cover" alt="goglobal-logo" />
           </div>
@@ -66,7 +66,7 @@ export const Header = () => {
         </div>
 
         {/* Mobile Navigation */}
-        {isMenuOpen && (
+        {/* {isMenuOpen && (
           <div className="md:hidden border-t border-gray-200 py-4">
             <nav className="flex flex-col space-y-4">
               <button onClick={() => scrollToSection('home')} className="text-white hover:text-blue-600 font-medium text-left">
@@ -83,7 +83,7 @@ export const Header = () => {
               </button>
             </nav>
           </div>
-        )}
+        )} */}
       </div>
     </header>
   );
