@@ -3,38 +3,34 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "@/components/ui/sonner";
 import { useTranslation } from "react-i18next";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import { useRef, useState } from "react";
 
 export const Contact = () => {
   const { t } = useTranslation();
-  const { toast } = useToast();
+  const formRef = useRef(null);
 
-  const initialValues = {
-    name: '',
-    email: '',
-    phone: '',
-    message: ''
-  };
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = formRef.current;
+    const data = new FormData(form!);
 
-  const validationSchema = Yup.object({
-    name: Yup.string().required(t('field-required')),
-    email: Yup.string().email(t('email-invalid')).required(t('field-required')),
-    phone: Yup.string()
-      .matches(/^[0-9]+$/, "Số điện thoại chỉ được chứa số")
-      .required('field-required'),
-    message: Yup.string(),
-  });
-
-  const handleSubmit = (values: typeof initialValues, { resetForm }: any) => {
-    toast({
-      title: t('message-sent'),
-      description: t('message-sent-desc'),
+    const res = await fetch("https://formspree.io/f/xgvynkdl", {
+      method: "POST",
+      body: data,
+      headers: {
+        Accept: "application/json",
+      },
     });
 
-    resetForm();
+    if (res.ok) {
+      toast.success(t("message-sent"), {
+        description: t("message-sent-desc"),
+        position: "top-right",
+      });
+      (form as HTMLFormElement).reset();
+    }
   };
 
   return (
@@ -57,98 +53,68 @@ export const Contact = () => {
               <CardDescription>{t('send-us-message-desc')}</CardDescription>
             </CardHeader>
             <CardContent>
-              <Formik
-                initialValues={initialValues}
-                validationSchema={validationSchema}
+              <form
+                ref={formRef}
                 onSubmit={handleSubmit}
+                className="space-y-6"
               >
-                {({ handleChange, handleBlur, values }) => (
-                  <Form className="space-y-6">
-                    <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                        {t('full-name')} <span className="text-red-500">*</span>
-                      </label>
-                      <Field
-                        as={Input}
-                        name="name"
-                        id="name"
-                        placeholder={t('full-name')}
-                        className="w-full"
-                      />
-                      <ErrorMessage
-                        name="name"
-                        component="p"
-                        className="text-sm text-red-500 mt-[4px]"
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                        Email <span className="text-red-500">*</span>
-                      </label>
-                      <Field
-                        as={Input}
-                        name="email"
-                        type="email"
-                        id="email"
-                        placeholder="email@example.com"
-                        className="w-full"
-                      />
-                      <ErrorMessage
-                        name="email"
-                        component="p"
-                        className="text-sm text-red-500 mt-[4px]"
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                        {t('phone-number')} <span className="text-red-500">*</span>
-                      </label>
-                      <Field name="phone">
-                        {({ field, form }: any) => (
-                          <Input
-                            {...field}
-                            id="phone"
-                            placeholder="0909 xxx xxx"
-                            className="w-full"
-                            type="text"
-                            inputMode="numeric"
-                            onChange={(e) => {
-                              const onlyNumbers = e.target.value.replace(/\D/g, '');
-                              form.setFieldValue(field.name, onlyNumbers);
-                            }}
-                          />
-                        )}
-                      </Field>
-                      <ErrorMessage
-                        name="phone"
-                        component="p"
-                        className="text-sm text-red-500 mt-1"
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                        {t('content')}
-                      </label>
-                      <Field
-                        as={Textarea}
-                        name="message"
-                        id="message"
-                        rows={5}
-                        placeholder={t('content-placeholder')}
-                        className="w-full"
-                      />
-                    </div>
-
-                    <Button type="submit" size="lg" className="w-full bg-blue-600 hover:bg-blue-700">
-                      {t('send-message')}
-                      <Send className="ml-2 h-4 w-4" />
-                    </Button>
-                  </Form>
-                )}
-              </Formik>
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                    {t('full-name')} <span className="text-red-500">*</span>
+                  </label>
+                  <Input
+                    name="name"
+                    id="name"
+                    placeholder={t('full-name')}
+                    className="w-full"
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                    Email <span className="text-red-500">*</span>
+                  </label>
+                  <Input
+                    name="email"
+                    type="email"
+                    id="email"
+                    placeholder="email@example.com"
+                    className="w-full"
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                    {t('phone-number')} <span className="text-red-500">*</span>
+                  </label>
+                  <Input
+                    name="phone"
+                    id="phone"
+                    placeholder="0909 xxx xxx"
+                    className="w-full"
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]+"
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                    {t('content')}
+                  </label>
+                  <Textarea
+                    name="message"
+                    id="message"
+                    rows={5}
+                    placeholder={t('content-placeholder')}
+                    className="w-full"
+                  />
+                </div>
+                <Button type="submit" size="lg" className="w-full bg-blue-600 hover:bg-blue-700">
+                  {t('send-message')}
+                  <Send className="ml-2 h-4 w-4" />
+                </Button>
+              </form>
             </CardContent>
           </Card>
 

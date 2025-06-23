@@ -64,26 +64,6 @@ export const Header = () => {
           </div>
 
         </div>
-
-        {/* Mobile Navigation */}
-        {/* {isMenuOpen && (
-          <div className="md:hidden border-t border-gray-200 py-4">
-            <nav className="flex flex-col space-y-4">
-              <button onClick={() => scrollToSection('home')} className="text-white hover:text-blue-600 font-medium text-left">
-                Home
-              </button>
-              <button onClick={() => scrollToSection('services')} className="text-white hover:text-blue-600 font-medium text-left">
-                Services
-              </button>
-              <button onClick={() => scrollToSection('about')} className="text-white hover:text-blue-600 font-medium text-left">
-                About
-              </button>
-              <button onClick={() => scrollToSection('contact')} className="text-white hover:text-blue-600 font-medium text-left">
-                Contact
-              </button>
-            </nav>
-          </div>
-        )} */}
       </div>
     </header>
   );
