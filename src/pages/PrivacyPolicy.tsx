@@ -122,8 +122,7 @@ const PrivacyPolicy = () => {
           <li>
             <strong>Liên hệ với chúng tôi</strong>
             <ul className="list-disc list-inside ml-6">
-              <li>Nếu bạn có bất kỳ câu hỏi nào về Chính sách quyền riêng tư này hoặc muốn thực hiện các quyền của mình, vui lòng liên hệ với chúng tôi theo địa chỉ email sau:</li>
-              <li><strong>apps.goglobal@gmail.com</strong></li>
+              <li>Nếu bạn có bất kỳ câu hỏi nào về Chính sách quyền riêng tư này hoặc muốn thực hiện các quyền của mình, vui lòng liên hệ với chúng tôi theo địa chỉ email sau: <strong>apps.goglobal@gmail.com</strong></li>
             </ul>
           </li>
         </ol>
@@ -247,8 +246,7 @@ const PrivacyPolicy = () => {
           <li>
             <strong>Contact Us</strong>
             <ul className="list-disc list-inside ml-6">
-              <li>If you have any questions about this Privacy Policy or wish to exercise your rights, please contact us at the following email address:</li>
-              <li><strong>apps.goglobal@gmail.com</strong></li>
+              <li>If you have any questions about this Privacy Policy or wish to exercise your rights, please contact us at the following email address: <strong>apps.goglobal@gmail.com</strong></li>
             </ul>
           </li>
         </ol>
