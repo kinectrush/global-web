@@ -24,6 +24,7 @@ export const Contact = () => {
       },
     });
 
+    
     if (res.ok) {
       toast.success(t("message-sent"), {
         description: t("message-sent-desc"),
