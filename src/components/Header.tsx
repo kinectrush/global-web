@@ -1,12 +1,14 @@
-
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language;
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
@@ -18,6 +20,14 @@ export const Header = () => {
       element.scrollIntoView({ behavior: 'smooth' });
     }
     setIsMenuOpen(false);
+  };
+
+  const handleMenuClick = (sectionId: string) => {
+    if (location.pathname === "/") {
+      scrollToSection(sectionId);
+    } else {
+      navigate("/", { state: { scrollTo: sectionId } });
+    }
   };
 
   return (
@@ -34,22 +44,23 @@ export const Header = () => {
                 {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </button>
             </div> */}
-            
-            <img src="images/logo-goglobal.png" className="h-[50px] w-auto object-cover" alt="goglobal-logo" />
+            <Link to="/">
+              <img src="images/logo-goglobal.png" className="h-[50px] w-auto object-cover cursor-pointer" alt="goglobal-logo" />
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <button onClick={() => scrollToSection('home')} className="text-white hover:text-blue-600 font-medium transition-colors">
+            <button onClick={() => handleMenuClick('home')} className="text-white hover:text-blue-600 font-medium transition-colors">
               {t('introduce')}
             </button>
-            <button onClick={() => scrollToSection('services')} className="text-white hover:text-blue-600 font-medium transition-colors">
+            <button onClick={() => handleMenuClick('services')} className="text-white hover:text-blue-600 font-medium transition-colors">
               {t('services')}
             </button>
-            <button onClick={() => scrollToSection('about')} className="text-white hover:text-blue-600 font-medium transition-colors">
+            <button onClick={() => handleMenuClick('about')} className="text-white hover:text-blue-600 font-medium transition-colors">
               {t('about')}
             </button>
-            <button onClick={() => scrollToSection('contact')} className="text-white hover:text-blue-600 font-medium transition-colors">
+            <button onClick={() => handleMenuClick('contact')} className="text-white hover:text-blue-600 font-medium transition-colors">
               {t('contact')}
             </button>
           </nav>
